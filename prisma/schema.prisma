@@ -10,9 +10,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Genre {
+  id     Int     @id @default(autoincrement())
+  genre  String  @unique
+  movies Movie[] // Establish a relation from Genre to Movie
+}
+
 model Movie {
   id          Int     @id @default(autoincrement())
   title       String
   description String?
-  genre       String
+  genre       Genre   @relation(fields: [genreId], references: [id])
+  genreId     Int
+  //  genres      Genre[]  @relation(references: [id]) // Using an array of Genre for multiple genres
 }
